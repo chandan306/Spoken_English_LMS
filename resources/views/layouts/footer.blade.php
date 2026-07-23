@@ -98,9 +98,9 @@
 
                 <p>📍 Noida, Uttar Pradesh, India</p>
 
-                <p>📞 +91 9876543210</p>
+                <p>📞 +91 7079152907</p>
 
-                <p>📧 info@spokenenglish.com</p>
+                <p>📧 vchandan402@gmail.com</p>
 
                 <p>🕒 Mon - Sat : 9:00 AM - 7:00 PM</p>
 

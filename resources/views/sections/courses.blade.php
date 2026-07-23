@@ -24,9 +24,16 @@
 
                         <h5 class="text-primary">₹1999</h5>
 
-                        <a href="#" class="btn btn-primary w-100">
+                    <form action="{{ route('payment.checkout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary w-100">
                             Enroll Now
-                        </a>
+                        </button>
+                    </form>
+
+                        {{-- <a href="#" class="btn btn-primary w-100">
+                            Enroll Now
+                        </a> --}}
 
                     </div>
 
@@ -48,10 +55,16 @@
                         </p>
 
                         <h5 class="text-primary">₹3999</h5>
-
-                        <a href="#" class="btn btn-primary w-100">
+                        <form action="{{ route('payment.checkout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-primary w-100">
                             Enroll Now
-                        </a>
+                        </button>
+                    </form>
+
+                        {{-- <a href="#" class="btn btn-primary w-100">
+                            Enroll Now
+                        </a> --}}
 
                     </div>
 

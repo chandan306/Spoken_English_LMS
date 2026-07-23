@@ -44,3 +44,7 @@ section{
 .card:hover{
     transform:translateY(-8px);
 }
+/* .card {
+    height: 100%;
+} */
+

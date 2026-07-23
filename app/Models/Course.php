@@ -13,5 +13,13 @@ class Course extends Model
         'duration',
         'image',
         'status'
-   ];
+    ];
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

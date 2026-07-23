@@ -27,14 +27,14 @@
 
                         <p>
                             📞 <strong>Phone</strong><br>
-                            +91 9876543210
+                            +91 7079152907
                         </p>
 
                         <hr>
 
                         <p>
                             📧 <strong>Email</strong><br>
-                            info@spokenenglish.com
+                           vchandan402@gmail.com
                         </p>
 
                         <hr>

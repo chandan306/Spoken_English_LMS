@@ -6,15 +6,20 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class StudentMiddleware
 {
+    /**
+     * Handle an incoming request.
+     *
+     * @param  Closure(Request): (Response)  $next
+     */
     public function handle(Request $request, Closure $next): Response
     {
-
-        if (auth()->check() && auth()->user()->role == 'admin') {
+         if(auth()->check() && auth()->user()->role=='student')
+        {
             return $next($request);
         }
 
-        abort(403, 'Unauthorized');
+        abort(403);
     }
 }

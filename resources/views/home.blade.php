@@ -7,7 +7,6 @@
 
     @vite(['resources/css/app.css','resources/js/app.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
 </head>
 
 <body>
@@ -18,6 +17,7 @@
 @include('sections.why-choose')
 @include('sections.courses')
 @include('sections.teachers')
+{{-- @include('sections.founder') --}}
 @include('sections.testimonials')
 @include('sections.statistics')
 @include('sections.gallery')
