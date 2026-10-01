@@ -11,6 +11,7 @@ class LiveClassController extends Controller
     public function index()
     {
         $classes = LiveClass::with('course')
+                    ->whereHas('course.users', fn ($query) => $query->whereKey(auth()->id()))
                     ->orderBy('class_date')
                     ->orderBy('start_time')
                     ->get();

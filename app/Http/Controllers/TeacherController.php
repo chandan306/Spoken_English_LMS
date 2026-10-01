@@ -22,7 +22,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('/admin/teachers.create');
+        return view('admin.teachers.create');
     }
 
     /**
@@ -31,12 +31,13 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
          $request->validate([
-        'name' => 'required',
-        'designation' => 'required',
-        'qualification' => 'required',
-        'experience' => 'required|numeric',
+        'name' => 'required|string|max:255',
+        'designation' => 'required|string|max:255',
+        'qualification' => 'required|string|max:255',
+        'experience' => 'required|integer|min:0',
         'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        'status' => 'required',
+        'about' => 'nullable|string',
+        'status' => 'required|in:Active,Inactive',
         ]);
 
         $photo = null;
@@ -68,7 +69,7 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $teacher)
+    public function edit(Teacher $teacher)
     {
         return view('admin.teachers.edit', compact('teacher'));
     }
@@ -76,14 +77,16 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Teacher $teacher)
     {
          $request->validate([
             'name'=>'required',
             'designation'=>'required',
             'qualification'=>'required',
-            'experience'=>'required',
-            'status'=>'required',
+            'experience'=>'required|integer|min:0',
+            'photo'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'about'=>'nullable|string',
+            'status'=>'required|in:Active,Inactive',
         ]);
 
         if($request->hasFile('photo'))
@@ -109,7 +112,7 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Teacher $teacher)
     {
         if($teacher->photo && Storage::disk('public')->exists($teacher->photo))
         {

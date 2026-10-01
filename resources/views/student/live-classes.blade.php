@@ -30,7 +30,7 @@
 
                 <tr>
 
-                    <td>{{ $class->course->course_name }}</td>
+                    <td>{{ $class->course?->course_name ?? 'Course unavailable' }}</td>
 
                     <td>{{ $class->title }}</td>
 

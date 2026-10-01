@@ -12,7 +12,7 @@ use App\Http\Controllers\Student\StudentCourseController;
 use App\Http\Controllers\Student\LiveClassController;
 
 
-Route::post('/pdf-upload', [PdfController::class, 'upload'])->name('pdf.upload');
+Route::middleware(['auth', 'admin'])->post('/pdf-upload', [PdfController::class, 'upload'])->name('pdf.upload');
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -24,11 +24,22 @@ Route::post('/pdf-upload', [PdfController::class, 'upload'])->name('pdf.upload')
 
 // });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        if ($user && $user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('student.dashboard');
+    })->name('dashboard');
+});
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::resource('courses', CourseController::class);
-    Route::resource('teachers', TeacherController::class);
+    Route::resource('courses', CourseController::class)->except(['show']);
+    Route::resource('teachers', TeacherController::class)->except(['show']);
+    Route::view('pdf-upload', 'pdf')->name('pdf.form');
 });
 
 Route::middleware(['auth','student'])->prefix('student')->group(function () {
@@ -38,31 +49,32 @@ Route::middleware(['auth','student'])->prefix('student')->group(function () {
 });
 
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [CourseController::class, 'home'])->name('home');
 Route::view('/about', 'about');
-Route::view('/courses', 'courses');
+Route::get('/courses', [CourseController::class, 'catalog'])->name('courses.catalog');
+Route::get('/courses/{course}', [CourseController::class, 'details'])->name('courses.details');
+Route::post('/stripe/webhook', [PaymentController::class, 'webhook'])->name('stripe.webhook');
 Route::view('/contact', 'contact');
 
 // Route::get('/dashboard', function () {
 //     return view('/admin/dashboard');
 // })->middleware(['auth', 'verified'])->name('/admin/dashboard');
 
-
-
-
-
-
 // Route::middleware('auth')->group(function () {
-//     Route::view('/dashboard', 'dashboard')->name('/admin/dashboard');
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
-Route::post('/checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
-Route::get('/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
+Route::middleware(['auth', 'student'])->group(function () {
+    Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
+    Route::post('/checkout/{course}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+    Route::get('/payment/success/{order}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('/payment/failed/{order}', [PaymentController::class, 'failed'])->name('payment.failed');
+    Route::get('/invoices/{invoice}/download', [App\Http\Controllers\InvoiceController::class, 'download'])->name('invoices.download');
+    Route::get('/my-courses', [StudentCourseController::class, 'index'])->name('my-courses');
+});
 
 
 require __DIR__.'/auth.php';

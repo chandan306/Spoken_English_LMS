@@ -8,32 +8,28 @@
 
     <div class="row">
 
-        @forelse($courses as $course)
+        @forelse($enrollments as $enrollment)
+            @php($course = $enrollment->course)
 
             <div class="col-lg-4 mb-4">
 
                 <div class="card shadow border-0">
 
-                    <img src="{{ asset($course['image']) }}"
+                    @if($course->image)<img src="{{ asset('storage/'.$course->image) }}"
                          class="card-img-top"
-                         style="height:220px;object-fit:cover;">
+                         style="height:220px;object-fit:cover;" alt="{{ $course->course_name }}">@endif
 
                     <div class="card-body">
 
-                        <h5>{{ $course['title'] }}</h5>
+                        <h5>{{ $course->course_name }}</h5>
+                        <p>{{ $course->description }}</p>
+                        <p><strong>Duration:</strong> {{ $course->duration }} days</p>
+                        <p><strong>Purchase amount:</strong> {{ $enrollment->order->currency }} {{ number_format((float) $enrollment->order->amount, 2) }}</p>
+                        <p><strong>Enrolled:</strong> {{ $enrollment->enrolled_at->format('Y-m-d') }}</p>
+                        <p><strong>Payment:</strong> {{ ucfirst($enrollment->payment->status) }}</p>
+                        <p><strong>Access:</strong> {{ ucfirst($enrollment->status) }}</p>
 
-                        <p><strong>Trainer:</strong> {{ $course['trainer'] }}</p>
-
-                        <p><strong>Duration:</strong> {{ $course['duration'] }}</p>
-
-                        <div class="progress mb-3">
-                            <div class="progress-bar bg-success"
-                                 style="width: {{ $course['progress'] }}%">
-                                {{ $course['progress'] }}%
-                            </div>
-                        </div>
-
-                        <a href="#" class="btn btn-primary w-100">
+                        <a href="{{ route('courses.details', ['course' => $course]) }}" class="btn btn-primary w-100">
                             Continue Learning
                         </a>
 
@@ -47,7 +43,7 @@
 
             <div class="col-12">
                 <div class="alert alert-warning">
-                    No courses found.
+                No active enrollments found.
                 </div>
             </div>
 

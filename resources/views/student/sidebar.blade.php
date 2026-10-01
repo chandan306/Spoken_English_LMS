@@ -58,7 +58,7 @@
 
         <li>
 
-            <a href="#">
+            <a href="{{ route('payment.index') }}">
 
                 <i class="fas fa-award"></i>
 

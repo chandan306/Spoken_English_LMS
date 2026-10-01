@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('customer_name')->nullable();
             $table->string('customer_email')->nullable();
             $table->decimal('amount',10,2);
-            $table->string('currency')->default('usd');
+            $table->string('currency')->default('INR');
             $table->string('payment_status')->default('pending');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('course_id')->constrained()->cascadeOnDelete();
@@ -31,10 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('payments', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['course_id']);
-            $table->dropColumn(['user_id', 'course_id']);
-        });
+        Schema::dropIfExists('payments');
     }
 };

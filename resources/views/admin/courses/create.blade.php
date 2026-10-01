@@ -21,7 +21,11 @@
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Price</label>
 
-                    <input type="number" name="price" class="form-control" value="{{ old('price') }}" />
+                    <input type="number" min="0.01" step="0.01" name="price" class="form-control" value="{{ old('price') }}" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Discount Price (optional)</label>
+                    <input type="number" min="0.01" step="0.01" name="discount_price" class="form-control" value="{{ old('discount_price') }}" />
                 </div>
             </div>
 

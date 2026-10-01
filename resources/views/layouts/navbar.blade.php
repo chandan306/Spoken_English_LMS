@@ -77,7 +77,7 @@
 
                             <li>
                                 <a class="dropdown-item"
-                                   href="{{ route('/admin/dashboard') }}">
+                                   href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('student.dashboard') }}">
                                     Dashboard
                                 </a>
                             </li>
